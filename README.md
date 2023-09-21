@@ -1,16 +1,21 @@
 # ginee
 
-A new Flutter project.
+# Build APP
+1. Clone the repo `gh repo clone Fareed-Ahmad7/Ginee-Ride`
+2. Install dependencies `flutter pub get`
+3. Run app `flutter run`
 
-## Getting Started
+# Test for multiple upcoming rides
+1. Go to this ridelist setion of code : https://github.com/Fareed-Ahmad7/Ginee-Ride/blob/31a944ab0de9afeed06e3f9f7cc5f03c69ca23fb/lib/screens/Home.dart#L31C4-L31C4
+2. de-comment the already commented second 'RideDetails()' to add second ride to ridelist
 
-This project is a starting point for a Flutter application.
+# Test for no upcoming rides
+1. Go to this ridelist setion of code : https://github.com/Fareed-Ahmad7/Ginee-Ride/blob/31a944ab0de9afeed06e3f9f7cc5f03c69ca23fb/lib/screens/Home.dart#L19
+2. comment both 'RideDetails()' to make the rideList empty
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# IOS Screenshots
+<img src="https://github.com/Fareed-Ahmad7/Ginee-Ride/assets/90202062/6b7dda6a-5a77-4344-999c-1043a72ae411" width=30% height=30%>
+&nbsp; &nbsp;  &nbsp; 
+<img src="https://github.com/Fareed-Ahmad7/Ginee-Ride/assets/90202062/bb1fc3b3-1bd6-451a-be6b-efd04f6707c9" width=30% height=30%>
+&nbsp; &nbsp;  &nbsp; 
+<img src="https://github.com/Fareed-Ahmad7/Ginee-Ride/assets/90202062/1fb8e955-3c46-4fe2-962f-4a16bf1dad5e" width=30% height=30%>

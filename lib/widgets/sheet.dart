@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ginee/model/rideDetails.dart';
+import 'package:ginee/utils/text_to_speech.dart';
+import '../screens/Confirmation.dart';
 
 class UpcomingRides extends StatelessWidget {
   final RideDetails rideDetails;
@@ -38,7 +40,8 @@ class UpcomingRides extends StatelessWidget {
                           ),
                           Text(
                             rideDetails.distance + ' | ' + rideDetails.time,
-                            style: const TextStyle(fontWeight: FontWeight.normal),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.normal),
                           ),
                         ],
                       )
@@ -46,7 +49,8 @@ class UpcomingRides extends StatelessWidget {
                   ),
                   Text(
                     rideDetails.price,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -93,7 +97,7 @@ class UpcomingRides extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                   Row(
+                  Row(
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +127,17 @@ class UpcomingRides extends StatelessWidget {
                             shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.zero),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            // stopping tts on clicking confirm button
+                            TextToSpeech.stop();
+
+                            // opening confirmation page
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ConfirmationScreen()),
+                            );
+                          },
                           child: const Text(
                             'Confirm',
                             style: TextStyle(color: Colors.white),

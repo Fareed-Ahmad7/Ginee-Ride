@@ -3,8 +3,9 @@ import 'package:flutter_tts/flutter_tts.dart';
 import '../model/rideDetails.dart';
 
 class TextToSpeech {
+  static FlutterTts flutterTts = FlutterTts();
+
   static Future<void> speak(RideDetails text) async {
-    FlutterTts flutterTts = FlutterTts();
     await flutterTts.speak('reading ride details of ride ${text.id}');
     await flutterTts.speak('name of the client is ${text.name}');
     await flutterTts.speak('the client is ${text.distance}');
@@ -18,10 +19,13 @@ class TextToSpeech {
   }
 
   static void speakNoRides() {
-    FlutterTts flutterTts = FlutterTts();
     Future.delayed(const Duration(seconds: 1), () async {
       await flutterTts.speak('There are no upcoming rides!');
       await flutterTts.speak('Please wait until new ride comes up');
     });
+  }
+
+  static Future stop() async {
+    await flutterTts.stop();
   }
 }

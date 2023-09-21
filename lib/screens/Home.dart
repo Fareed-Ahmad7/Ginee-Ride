@@ -49,10 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Ginee Ride Details'),
       ),
       // background map image
-      body: const Image(
-        height: 1000,
-        fit: BoxFit.cover,
-        image: AssetImage("assets/images/map.png"),
+      body: GestureDetector(
+        onTap: () => openBottomSheetAndPlayTTS(),
+        child: const Image(
+          height: 1000,
+          fit: BoxFit.cover,
+          image: AssetImage("assets/images/map.png"),
+        ),
       ),
     );
   }
@@ -62,49 +65,57 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // opening bottom sheet automatically on app opened
-
+      // opening bottom sheet and playing tts automatically after 3 seconds on app opened
       Future.delayed(const Duration(seconds: 3), () {
-        showModalBottomSheet(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(20),
-            ),
-          ),
-          clipBehavior: Clip.antiAlias,
-          useSafeArea: true,
-          showDragHandle: true,
-          enableDrag: true,
-          context: context,
-          builder: (context) => Column(
-            children: [
-              // upcoming rides Heading
-              const Padding(
-                padding: EdgeInsets.fromLTRB(12, 0, 0, 8),
-                child: Row(
-                  children: [
-                    Text(
-                      'Upcoming Rides',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ),
-
-              //  ride details card
-              Expanded(
-                child: ListView.builder(
-                  itemCount: rideList.length,
-                  itemBuilder: (context, index) =>
-                      UpcomingRides(rideDetails: rideList[index]),
-                ),
-              ),
-            ],
-          ),
-        );
+        openBottomSheetAndPlayTTS();
       });
+    });
+  }
 
+  Future openBottomSheetAndPlayTTS() {
+
+    return Future.delayed(const Duration(seconds: 0), () {
+      // showing bottom sheet
+      showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        clipBehavior: Clip.antiAlias,
+        useSafeArea: true,
+        showDragHandle: true,
+        enableDrag: true,
+        context: context,
+        builder: (context) => Column(
+          children: [
+            // upcoming rides Heading
+            const Padding(
+              padding: EdgeInsets.fromLTRB(12, 0, 0, 8),
+              child: Row(
+                children: [
+                  Text(
+                    'Upcoming Rides',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ),
+
+            //  ride details card
+            Expanded(
+              child: ListView.builder(
+                itemCount: rideList.length,
+                itemBuilder: (context, index) =>
+                    UpcomingRides(rideDetails: rideList[index]),
+              ),
+            ),
+          ],
+        ),
+      ).whenComplete(() {
+        // stopping tts on bottom sheet closed
+        TextToSpeech.stop();
+      });
 
       // playing text to speech of ride details automatically
       if (rideList.isNotEmpty) {
@@ -112,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Future.forEach(
           rideList,
           (itemInList) => Future.delayed(
-            const Duration(seconds: 4),
+            const Duration(seconds: 1),
             () {
               TextToSpeech.speak(itemInList);
             },

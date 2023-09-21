@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:ginee/model/rideDetails.dart';
 import 'package:ginee/widgets/sheet.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  Future _speak(RideDetails text) async {
+    FlutterTts flutterTts = FlutterTts();
+    await flutterTts.speak('reading ride details of ride ${text.id}');
+    await flutterTts.speak('name of the client is ${text.name}');
+    await flutterTts.speak('the client is ${text.distance}');
+    await flutterTts.speak('pickup location is ${text.pickupLocation}');
+    await flutterTts.speak('drop location is ${text.dropLocation}');
+    await flutterTts.speak('client payment method is ${text.paymentMethod}');
+    await flutterTts.speak('The fare amount for this ride is ${text.price} rupees');
+    await flutterTts.speak('Click confirm button if you want to proceed with this ride');
+  }
+
   @override
   Widget build(BuildContext context) {
-
     // upcoming ride list
     var rideList = [
       const RideDetails(
+        id: '1',
         name: 'Fareed Ahammad',
         image: 'assets/images/profile.jpg',
         price: '₹ 240',
@@ -20,7 +33,9 @@ class HomeScreen extends StatelessWidget {
         dropLocation: 'IV Sanctum Hotel, 5th Main Road, Bangalore',
         paymentMethod: 'Credit Card',
       ),
+
       // const RideDetails(
+      //   id: '2',
       //   name: 'Ahammad',
       //   image: 'assets/images/profile.jpg',
       //   price: '₹ 300',
@@ -38,8 +53,26 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Ginee Ride Details'),
       ),
       body: GestureDetector(
-        onTap: () {
+        onTap: () async {
           // TODO make this open automatically on app open
+
+          if (rideList.isNotEmpty) {
+            Future.forEach(
+              rideList,
+              (itemInList) => Future.delayed(
+                const Duration(seconds: 1),
+                () {
+                  _speak(itemInList);
+                },
+              ).then(print),
+            ).then(print).catchError(print);
+          } else {
+            FlutterTts flutterTts = FlutterTts();
+            Future.delayed(const Duration(seconds: 1), () async {
+              await flutterTts.speak('There are no upcoming rides!');
+              await flutterTts.speak('Please wait until new ride comes up');
+            });
+          }
 
           showModalBottomSheet(
             shape: const RoundedRectangleBorder(
@@ -69,12 +102,13 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                
+
                 //  ride details card
                 Expanded(
                   child: ListView.builder(
                     itemCount: rideList.length,
-                    itemBuilder: (context, index) => UpcomingRides(rideDetails: rideList[index]),
+                    itemBuilder: (context, index) =>
+                        UpcomingRides(rideDetails: rideList[index]),
                   ),
                 ),
               ],
